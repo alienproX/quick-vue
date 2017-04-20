@@ -1,0 +1,27 @@
+#header {
+	background: #444;
+	height: 44px;
+	line-height: 44px;
+
+	a {
+		color: #fff;
+		background: #666;
+		display: inline-block;
+		height: 24px;
+		margin-right: 24px;
+		border-radius: 4px;
+		line-height: 24px;
+		margin-top: 10px;
+		padding: 0px 10px;
+		vertical-align: text-bottom;
+	}
+
+	#processBar {
+		background: #2196F3;
+		height: 2px;
+		position: fixed;
+		z-index: 1000;
+		left: 0;
+		width: 0;
+	}
+}
