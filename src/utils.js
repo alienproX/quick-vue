@@ -26,6 +26,27 @@ let utils = {
       }
       document.body.appendChild(iframe)
     }
-  }
+  },
+  post: (url, data) => new Promise((resolve, reject) => {
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(Object.assign({}, data))
+    }).then(res => {
+      if (res.status === 200) {
+        res.json().then(json => {
+          if (+json.status === 100) {
+            resolve && resolve(json.result)
+          } else {
+            reject && reject(json.result)
+          }
+        })
+      }
+    })
+  })
 }
 export default utils
