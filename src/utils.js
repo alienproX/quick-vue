@@ -31,8 +31,7 @@ let utils = {
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        'X-Requested-With': 'XMLHttpRequest'
+        'Content-Type': 'application/json;charset=UTF-8'
       },
       credentials: 'same-origin',
       body: JSON.stringify(Object.assign({}, data))
