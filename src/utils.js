@@ -27,15 +27,39 @@ let utils = {
       document.body.appendChild(iframe)
     }
   },
-  post: (url, data) => new Promise((resolve, reject) => {
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8'
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(Object.assign({}, data))
-    }).then(res => {
+  serialize: (obj) => {
+    let str = []
+    for (let p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        if (typeof obj[p] === 'object') {
+          for (let val in obj[p]) {
+            if (obj[p].hasOwnProperty(val)) {
+              str.push(`option_fields[${val}]=${encodeURIComponent(obj[p][val])}`)
+            }
+          }
+        } else {
+          str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
+        }
+      }
+    }
+    return str.join('&')
+  },
+  ajax: type => (url, data) => new Promise((resolve, reject) => {
+    let p = {credentials: 'same-origin'}
+    if (type === 'POST') {
+      p = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(Object.assign({}, data))
+      }
+    }
+    if (type === 'GET') {
+      url = `${url}?${utils.serialize(Object.assign({}, data))}`
+    }
+    fetch(url, p).then(res => {
       if (res.status === 200) {
         res.json().then(json => {
           if (+json.status === 100) {
